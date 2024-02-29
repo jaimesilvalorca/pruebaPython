@@ -13,30 +13,20 @@ def app():
     # for ave_imagen in res_aves:
     #     pass
     #     # print(ave_imagen['images']['main'])
-        
     
     
     img_template = Template("""
                             <div class="card" style="width: 18rem;">
                                 <img src="$url" class="card-img-top" alt="$nombre_espaniol">
                                 <div class="card-body">
-                                    <h2>Nombre latin: $nombre_latin</h2>
-                                    <p>Nombre español: $nombre_espaniol</p>
-                                    <p>Nombre ingles: $nombre_ingles</p>
+                                    <h5 class="text-center">Nombre latin: $nombre_latin</h2>
+                                    <p class="text-center">Nombre español: $nombre_espaniol</p>
+                                    <p class="text-center">Nombre ingles: $nombre_ingles</p>
                                 </div>
                             </div>
                             """)
         
-    # //no funcionó me renderizaba todos los español , luego todos los
-    # // ingles, los latin y luego
-    # // las imagenes asi que mejor cree un template que tomase todos los valores como el de arriba
-    # lista_urls = [ave_img['images']['main'] for ave_img in res_aves]
-    # nombre_espaniol = [ave_nombre_spanish['name']['spanish'] for ave_nombre_spanish in res_aves] 
-    # nombre_ingles = [ave_nombre_spanish['name']['english'] for ave_nombre_spanish in res_aves]
-    # nombre_latin = [ave_nombre_spanish['name']['latin'] for ave_nombre_spanish in res_aves]
-    # nombre_espaniol_template = Template('<h2>Nombre español: $nombre_espaniol</h2>') 
-    # nombre_ingles_template = Template('<h2>Nombre ingles: $nombre_ingles</h2>') 
-    # nombre_latin_template = Template('<h2>Nombre latin: $nombre_latin</h2>') 
+
     html_template = Template('''
                              <!DOCTYPE html>
                                 <html lang="en">
@@ -59,19 +49,52 @@ def app():
                                 </body>
                                 </html>
                              ''')
+     
+    texto_img = ""
     
+    for aves in res_aves:
 
+        texto_img += img_template.substitute(url = aves['images']['main'],nombre_espaniol = aves['name']['spanish'],nombre_ingles = aves['name']['english'],nombre_latin = aves['name']['latin']) + "\n"
+        
+                                
+    print("Renderizando html....")
+    html = html_template.substitute(body = texto_img)
+    with open("aves.html", "w", encoding="utf-8") as html_file:
+        html_file.write(html)
     
-    # print(img_template) // imprime el objeto
-
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    # //no funcionó me renderizaba todos los español , luego todos los
+    # // ingles, los latin y luego
+    # // las imagenes asi que mejor cree un template que tomase todos los valores como el de arriba
+    # lista_urls = [ave_img['images']['main'] for ave_img in res_aves]
+    # nombre_espaniol = [ave_nombre_spanish['name']['spanish'] for ave_nombre_spanish in res_aves] 
+    # nombre_ingles = [ave_nombre_spanish['name']['english'] for ave_nombre_spanish in res_aves]
+    # nombre_latin = [ave_nombre_spanish['name']['latin'] for ave_nombre_spanish in res_aves]
+    # nombre_espaniol_template = Template('<h2>Nombre español: $nombre_espaniol</h2>') 
+    # nombre_ingles_template = Template('<h2>Nombre ingles: $nombre_ingles</h2>') 
+    # nombre_latin_template = Template('<h2>Nombre latin: $nombre_latin</h2>') 
+    # print(img_template) // imprime el  espacio en memoria del objeto
     # print(html_template) // imprime el otro espacio en memoria del objeto, 
-    
     # print([ave_nombre_spanish['name']['spanish'] for ave_nombre_spanish in res_aves]) // prueba comprension para trener datos
     # print([ave_nombre_spanish['name']['english'] for ave_nombre_spanish in res_aves]) // prueba comprension para trener datos
     # print([ave_nombre_spanish['name']['latin'] for ave_nombre_spanish in res_aves]) //  prueba comprension para trener datos
     # print([ave_img['images']['main'] for ave_img in res_aves]) // prueba comprension para trener datos
-
-    texto_img = ""
     # texto_espaniol = ""
     # texto_ingles = ""
     # texto_latin = ""
@@ -87,19 +110,7 @@ def app():
 
     # for nombre_latin in lista_urls:
     #     texto_latin += nombre_latin_template.substitute(nombre_latin = nombre_latin) + "\n"
-    
-    for aves in res_aves:
-        # texto_espaniol += nombre_espaniol_template.substitute(nombre_espaniol = aves['name']['spanish']) + "\n"
+            # texto_espaniol += nombre_espaniol_template.substitute(nombre_espaniol = aves['name']['spanish']) + "\n"
         # texto_ingles += nombre_ingles_template.substitute(nombre_ingles = aves['name']['english']) + "\n"
         # texto_latin += nombre_latin_template.substitute(nombre_latin = aves['name']['latin']) + "\n"
-        texto_img += img_template.substitute(url = aves['images']['main'],nombre_espaniol = aves['name']['spanish'],nombre_ingles = aves['name']['english'],nombre_latin = aves['name']['latin']) + "\n"
-        
-        
-                            
-    # #print(texto_img)
-    print("Renderizando html....")
-    html = html_template.substitute(body = texto_img)
-    with open("aves.html", "w", encoding="utf-8") as html_file:
-        html_file.write(html)
-    
     
